@@ -1,82 +1,51 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таймер</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .timer {
-            text-align: center;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .display {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        button {
-            margin: 0 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Document</title>
 </head>
-<body>
-    <div class="timer">
-        <div class="display" id="display">00:00:00</div>
-        <button id="start">Старт</button>
-        <button id="pause">Пауза</button>
-        <button id="reset">Сброс</button>
+<body class="bg-slate-400 w-full h-full" style="margin-left: 450px;margin-top: 200px;">
+    <h1 style="margin-left: 70px;" class="text-white text-4xl font-bold ml-[525px] mt-[50px]">SECUNDAMER</h1><br>
+    <div class="bg-[white] border-[3px] border-[solid] border-[black] w-[300px] h-[400px] ml-[500px] mt-[100px] pl-[70px] pt-[30px] rounded-xl">
+        <div style="font-size: 50px;font-weight: 400;margin-left: 170px;" id="display" class="text-6xl border-[3px] border-[gray] rounded-[50%] border-[solid] w-[150px] h-[150px] text-center pt-[45px]">0</div><br><br><br>
+        <button style="background-color: green ; width: 120px; height: 40px;border-radius: 20px;border: none;color: white;" id="start" type="button" role="button" class="w-40 rounded-2xl h-10 hover:bg-green-600 text-white bg-[green] border-none ">START</button>
+        <button style="background-color: red ; width: 120px; height: 40px;border-radius: 20px;border: none;color: white;" id="stop" type="button" role="button" class="w-40 rounded-2xl h-10 hover:bg-red-600 text-white bg-[red] border-none ">STOP</button>
+        <button style="background-color: burlywood ; width: 120px; height: 40px;border-radius: 20px;border: none;color: white;" id="reset" type="button" role="button" class="w-40 rounded-2xl h-10 hover:bg-orange-400 text-white bg-[orange] border-none ">RESET</button>
     </div>
-
     <script>
-        let timer;
-        let isRunning = false;
-        let seconds = 0;
+        const display = document.getElementById('display')
+        const start = document.getElementById('start')
+        const stop = document.getElementById('stop')
+        const reset = document.getElementById('reset')
 
-        function updateDisplay() {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const secs = seconds % 60;
-            document.getElementById('display').textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        let counter = 0;
+        let intervalId ;
+
+        function upCounter() {
+            counter++;
+            console.log(counter);
+            display.textContent = counter ;
         }
 
-        document.getElementById('start').addEventListener('click', () => {
-            if (!isRunning) {
-                isRunning = true;
-                timer = setInterval(() => {
-                    seconds++;
-                    updateDisplay();
-                }, 1000);
+        start.addEventListener('click' , () =>{
+            intervalId = setInterval(upCounter,1000)
+        })
+
+        stop.addEventListener('click' , () => {
+            if(intervalId){
+            clearInterval(intervalId)
+            intervalId = null ;
             }
-        });
+        })
 
-        document.getElementById('pause').addEventListener('click', () => {
-            isRunning = false;
-            clearInterval(timer);
-        });
+        reset.addEventListener('click' , ()=>{
+            clearInterval(intervalId)
+            counter = 0;
+            display.textContent = counter ;
+            intervalId = null
+        })
 
-        document.getElementById('reset').addEventListener('click', () => {
-            isRunning = false;
-            clearInterval(timer);
-            seconds = 0;
-            updateDisplay();
-        });
-
-        updateDisplay();
     </script>
 </body>
 </html>
